@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import _ from 'lodash';
 import './App.css';
-
 
 var possibleCombinationSum = function(arr, n) {
   if (arr.indexOf(n) >= 0) { return true; }
@@ -50,10 +49,13 @@ const Button = (props) => {
         break;
     default:
     	button =
-      	<button className="btn"
+      	<button className="btn btn-primary"
         				onClick={props.checkAnswer}
                 disabled={props.selectedNumbers.length === 0}>
-        	=
+        	<i> 
+            =
+          	<br/>Check Answer
+          </i>
         </button>;
       break;
   }
@@ -64,21 +66,30 @@ const Button = (props) => {
       <br/>
       <button className="btn btn-warning btn-sm" onClick={props.redraw}
       				disabled={props.redraws === 0}>
-        <i className="fas fa-sync"> {props.redraws}</i> 
+        <i className="fa fa-refresh"> {props.redraws}</i> 
       </button>
     </div>
   );
 };
 
 const Answer = (props) => {
-  return (
-    <div className="col-5">
-      {props.selectedNumbers.map((number, i) =>
-      	<span key={i} onClick={() => props.unselectNumber(number)}>
-        	{number}
-        </span>
-      )}
+  let body;
+  if (props.selectedNumbers.length <= 0){
+    body = <div>
+    <p>How many stars are there? Select number(s) below.</p>
     </div>
+  }
+  else{
+    body =    <div className="col-5">
+    {props.selectedNumbers.map((number, i) =>
+      <span key={i} onClick={() => props.unselectNumber(number)}>
+        {number}
+      </span>
+    )}
+  </div>
+  }
+  return (
+    body
   );
 };
 
@@ -197,6 +208,7 @@ class Game extends React.Component {
     
     return (
       <div className="container">
+      <br/>
         <h3>Play Nine</h3>
         <hr />
         <div className="row">
@@ -233,3 +245,4 @@ class App extends Component {
 }
 
 export default App;
+
